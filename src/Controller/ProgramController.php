@@ -13,11 +13,16 @@ class ProgramController extends AbstractController
 {
     /**
      * @Route("/", name="index")
+     * @return Response A response instance
      */
     public function index(): Response
     {
+        $programs = $this->getDoctrine()
+            ->getRepository(Program ::class)
+            ->findAll();
         return $this->render('program/index.html.twig', [
             'website' => 'Wild Séries',
+            'programs'=>$programs
         ]);
     }
 
