@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row m-5">
+        {% for category in categoryName %}
+				<h1>Category
+					{{ category.name }}.</h1>
+
+        {% endfor %}
+			{% for programCat in programCategory %}
+
+				<div class="col-xs-6 col-lg-4">
+					<h2>{{ loop.index }}
+						/
+						{{ programCat.title }}
+						- Catégorie :
+						{{ programCat.category.name }}</h2>
+
+					<p>{{ programCat.summary }}</p>
+					{# Lien vers la fiche de la série : #}
+					<a href="{{ path("program_show", { id: programCat.id }) }}">Voir la fiche</a>
+				</div>
+			{% else %}
+				Aucune série trouvée.
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}
