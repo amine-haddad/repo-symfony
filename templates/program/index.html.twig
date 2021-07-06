@@ -1,32 +1,29 @@
-
 {% extends "base.html.twig" %}
 {% block body %}
-   <h1>{{ website }} Home !</h1>
-   <h1>Toutes les séries de la table program : </h1>
-<div class="container" >
-<div class="row">
-{% for program in programs %}
-        <div class="col-xs-3 col-lg-3 ">
-            <a href="{{ path("program_show", { id: program.id }) }}" class="thumbnail">
-            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
-                
-            </a>
-        
-
-
-            <p>{{ program.summary }}</p>
-            {# Lien vers la fiche de la série : #}
-            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>
-       
-        </div>
-{% else %}
-  Aucune série trouvée.
-  {% endfor %}
-</div>
-  <a href="{{ path('app_index') }}">
-
-        Retour à l'accueil
-
-    </a>
-
-{% endblock %}
+	<h1>{{ website }}
+		Home !</h1>
+	<h1>Toutes les séries de la table program :
+	</h1>
+	<div class="container">
+		<div class="row">
+			{% for program in programs %}
+				<div class="col-xs-3 col-lg-3 ">
+					<a href="{{ path("program_show", { programId: program.id }) }}" class="thumbnail">
+						<h2>{{ loop.index }}
+							/
+							{{ program.title }}
+							- Catégorie :
+							{{ program.category.name }}</h2>
+					</a>
+					<p>{{ program.summary }}</p>
+					{# Lien vers la fiche de la série : #}
+					<a href="{{ path("program_show", { programId: program.id }) }}">Voir la fiche</a>
+				</div>
+			{% else %}
+				Aucune série trouvée.
+			{% endfor %}
+		</div>
+		<a href="{{ path('app_index') }}">
+			Retour à l'accueil
+		</a>
+	{% endblock %}
