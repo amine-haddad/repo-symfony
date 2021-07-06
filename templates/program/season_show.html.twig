@@ -40,12 +40,12 @@
 				</div>
 			</div>
       	<div>
-				<a href="">
+				<a href="{{ path('program_episode_show',{ programId: program.id , seasonId: season.id, episodeId: episode.id }) }}">
 					Voir le film
 				</a>
 			</div>
 			<div>
-				<a href="{{ path('program_show', { id: program.id }) }}">
+				<a href="{{ path('program_show', { programId: program.id }) }}">
 					Retour aux saisons
 				</a>
 			</div>
