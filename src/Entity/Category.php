@@ -59,6 +59,10 @@ class Category
         return $this->programs;
     }
 
+    /**
+     * @param Program $program
+     * @return Category
+     */
     public function addProgram(Program $program): self
     {
         if (!$this->programs->contains($program)) {
@@ -69,6 +73,10 @@ class Category
         return $this;
     }
 
+    /**
+     * @param Program $program
+     * @return Category
+     */
     public function removeProgram(Program $program): self
     {
         if ($this->programs->removeElement($program)) {
