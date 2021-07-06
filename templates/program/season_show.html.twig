@@ -14,7 +14,7 @@
 				id de la saison :{{season.id}}</p>
 			<p>
 				nom de la serie :{{season.program.title}}</p>
-			<p>Saison number :{{season.number}}</p>
+			<p>Saison :{{season.number}}</p>
 			<p>Année de sortie :{{ season.year}}</p>
 			<p>Desciption
 				{{season.description}}</p>
@@ -24,20 +24,25 @@
 					<divclass="rowm-5">
 						<div class="col">
 							<h1>
-								titre :
+								Titre :
 								{{episode.title}}</h1>
 							<p>
 								indice de l episodes :
 								{{episode.id}}</p>
 
-							episode number :
+							Episode :
 							{{episode.number}}
-							<p>synopsys :{{episode.synopsis}}</p>
+							<p>Synopsys :{{episode.synopsis}}</p>
 						</div>
 					</div>
 
 
 				</div>
+			</div>
+      	<div>
+				<a href="">
+					Voir le film
+				</a>
 			</div>
 			<div>
 				<a href="{{ path('program_show', { id: program.id }) }}">
