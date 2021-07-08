@@ -15,6 +15,9 @@
 							- Catégorie :
 							{{ program.category.name }}</h2>
 					</a>
+          <div classe"media">
+           <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
+          </div>
 					<p>{{ program.summary }}</p>
 					{# Lien vers la fiche de la série : #}
 					<a href="{{ path("program_show", { programId: program.id }) }}">Voir la fiche</a>

@@ -53,7 +53,7 @@ class ProgramController extends AbstractController
         // Get data from HTTP request
         $form->handleRequest($request);
         // Was the form is submitted?
-        if($form->isSubmitted()){
+        if($form->isSubmitted()&& $form->isValid()){
             //Deal with the submitted data
             //Get the Entity Manager
             $entityManager = $this->getDoctrine()->getManager();
@@ -71,8 +71,6 @@ class ProgramController extends AbstractController
         ]);
     }
 
-
-
     /**
      * @Route("/{programId}", name="show", methods={"GET"},requirements={"id"="\d+"})
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"programId": "id"}})
@@ -87,9 +85,7 @@ class ProgramController extends AbstractController
                 'No program with id : ' . $programId . ' found in program\'s table.'
             );
         }
-        $seasons = $this->getDoctrine()
-            ->getRepository(Season::class)
-            ->findBy(['program' => $programId]);
+        $seasons = $programId->getSeasons();
         if (!$seasons) {
             throw $this->createNotFoundException(
                 'No program with id : ' . $seasons . ' found in program\'s table.'
@@ -120,9 +116,7 @@ class ProgramController extends AbstractController
                 'No season with id : ' . $seasonId . ' found in season\'s table.'
             );
         }
-        $episodes = $this->getDoctrine()
-            ->getRepository(Episode::class)
-            ->findBy(['season' => $seasonId]);
+        $episodes = $seasonId->getEpisodes();
         if (!$episodes) {
             throw $this->createNotFoundException(
                 'No episode with id : ' . $episodes . ' found in episode\'s table.'
