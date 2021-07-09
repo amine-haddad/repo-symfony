@@ -8,6 +8,7 @@ use App\Entity\Season;
 use App\Form\ProgramType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class ProgramController extends AbstractController
      * 
      * @Route("/new", name="new")
      */
-    public function new(Request $request):Response
+    public function new(Request $request): Response
     {
         //create a new Category object
         $program = new Program();
@@ -53,7 +54,7 @@ class ProgramController extends AbstractController
         // Get data from HTTP request
         $form->handleRequest($request);
         // Was the form is submitted?
-        if($form->isSubmitted()&& $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             //Deal with the submitted data
             //Get the Entity Manager
             $entityManager = $this->getDoctrine()->getManager();
@@ -67,7 +68,7 @@ class ProgramController extends AbstractController
         }
         //Render the form
         return $this->render('program/new.html.twig', [
-            "form"=>$form->createView(),
+            "form" => $form->createView(),
         ]);
     }
 
@@ -148,7 +149,7 @@ class ProgramController extends AbstractController
                 'No season with id : ' . $season . ' found in season\'s table.'
             );
         }
-        
+
         if (!$episode) {
             throw $this->createNotFoundException(
                 'No episode with id : ' . $episode . ' found in episode\'s table.'
@@ -159,5 +160,30 @@ class ProgramController extends AbstractController
             'program' => $program,
             'episodes' => $episode
         ]);
+    }
+
+    /** 
+     * @Route("/student/ajax") 
+     */
+    public function ajaxAction(Request $request)
+    {
+        $programs = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findAll();
+
+        if ($request->isXmlHttpRequest() || $request->query->get('showJson') == 1) {
+            $jsonData = array();
+            $idx = 0;
+            foreach ($programs as $program) {
+                $temp = array(
+                    'name' => $program->getName(),
+                    'Actor' => $program->getActor(),
+                );
+                $jsonData[$idx++] = $temp;
+            }
+            return new JsonResponse($jsonData);
+        } else {
+            return $this->render('actor/index.html.twig');
+        }
     }
 }

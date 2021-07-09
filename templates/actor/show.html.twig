@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row">
+			{% for actorPrograms in actor.programs %}
+				<div class="col-sm-3">
+
+					<div class="card-group" style="heigth: 400px;">
+						<div class="card  m-4 p-1" style="height:auto;">
+							<div class="card-header">
+								<a href="{{ path("program_show", { programId: actorPrograms.id }) }}" class="btn btn-primary m-4 p-1">{{actorPrograms.title}}</a>
+								<img src="{{actorPrograms.poster}}" style="height:480px;" class="card-img-top figure-img img-fluid " alt="{{ actorPrograms.title }} poster">
+							</div>
+							<div class="card-body card text-white bg-dark m-4 p-1">
+								<h5 class="card-title">{{actor.name}}</h5>
+								<h5 class="card-title">
+									<small class="text-muted">{{actorPrograms.category.name}}</small>
+								</h5>
+								<p class="card-text"  style="height:220px;">{{actorPrograms.summary}}</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

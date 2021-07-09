@@ -4,29 +4,36 @@
 		Home !</h1>
 	<h1>Toutes les séries de la table program :
 	</h1>
-	<div class="container">
+
+
+	<div class="container-fluid">
 		<div class="row">
+
 			{% for program in programs %}
-				<div class="col-xs-3 col-lg-3 ">
-					<a href="{{ path("program_show", { programId: program.id }) }}" class="thumbnail">
-						<h2>{{ loop.index }}
-							/
-							{{ program.title }}
-							- Catégorie :
-							{{ program.category.name }}</h2>
-					</a>
-          <div classe"media">
-           <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
-          </div>
-					<p>{{ program.summary }}</p>
-					{# Lien vers la fiche de la série : #}
-					<a href="{{ path("program_show", { programId: program.id }) }}">Voir la fiche</a>
+				<div class="col-sm-3">
+					<div class="card-group" style="heigth: 500px;">
+						<div class="card m-4 p-1" style="height:auto;" >
+							<h5 class="card-title, ">{{ loop.index }}.{{ program.title }}</h5>
+							<div class="card-header">
+								<img src="{{program.poster}}"style="height:480px;" class="card-img-top figure-img img-fluid " alt="{{ program.title }} poster">
+							</div>
+							<div class="card-body card text-white bg-dark m-4 p-1" >
+								<h5 class="card-title" >{{ loop.index }}.{{ program.title }}</h5>
+								<p class="card-text" style="height:220px;" >{{ program.summary }}</p>
+								<p class="card-text">- Catégorie :{{ program.category.name }}</p>
+							</div>
+								<a href="{{ path("program_show", { programId: program.id }) }}" class="btn btn-primary m-4 p-1">Voir</a>
+						</div>
+					</div>
 				</div>
 			{% else %}
 				Aucune série trouvée.
 			{% endfor %}
 		</div>
-		<a href="{{ path('app_index') }}">
+	</div>
+	<div class="container">
+		<a class="btn btn-primary" href="{{ path('app_index') }}">
 			Retour à l'accueil
 		</a>
-	{% endblock %}
+	</div>
+{% endblock %}
