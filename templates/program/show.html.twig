@@ -2,15 +2,37 @@
 {% block title %}Série #{{ program.id }}{% endblock %}
 
 {% block body %}
-<div class="media">
-  <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
-  <div class="media-body">
-    <h1 class="mt-0">{{ program.title }}</h1>
-    <p>{{ program.summary }}</p>
-    <p>Catégorie : {{ program.category.name }}</p>
-    
-    
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{program.poster}}" class="img-fluid rounded-start" alt="{{ program.title }} poster">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ program.title }}e</h5>
+        <p class="card-text">{{ program.summary }}</p>
+        <p class="card-text"><small class="text-muted">Catégorie : {{ program.category.name }}</small></p>
+      </div>
+    </div>
   </div>
+</div>
+
+  <strong>Acteurs :</strong>
+
+<ul>
+
+    {% for actor in program.actors %}
+
+        <li>{{ actor.name }} </li>
+
+    {% else %}
+
+        <li>Aucun acteur pour cette série</li>
+
+    {% endfor %}
+
+</ul>
+
 </div>
 {% for season in seasons %}
   <div>
