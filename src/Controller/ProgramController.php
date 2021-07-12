@@ -34,6 +34,7 @@ class ProgramController extends AbstractController
             'program/index.html.twig',
             [
 
+                'numberPrograms'=>count($programs)." programs dans le catalogue",
                 'website' => 'Wild Séries',
                 'programs' => $programs
             ]
@@ -47,10 +48,11 @@ class ProgramController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        //create a new Category object
+        //create a new Program object
         $program = new Program();
         // Create the associated Form
         $form = $this->createForm(ProgramType::class, $program);
+
         // Get data from HTTP request
         $form->handleRequest($request);
         // Was the form is submitted?
@@ -70,6 +72,7 @@ class ProgramController extends AbstractController
         return $this->render('program/new.html.twig', [
             "form" => $form->createView(),
         ]);
+        
     }
 
     /**
