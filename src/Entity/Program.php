@@ -55,12 +55,14 @@ class Program
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="program")
+     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="program",
+     * orphanRemoval=true, cascade={"persist"})
+     * 
      */
     private $seasons;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Actor::class, mappedBy="programs")
+     * @ORM\ManyToMany(targetEntity=Actor::class, mappedBy="programs",cascade={"persist"})
      * @ORM\OrderBy({"name" = "ASC"})
      */
     private $actors;
