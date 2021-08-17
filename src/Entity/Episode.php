@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EpisodeRepository;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,7 +19,7 @@ class Episode
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="episodes")
+     * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="episodes",cascade={"persist"})
      */
     private $season;
 
