@@ -19,7 +19,7 @@
 
 					<p>{{ programCat.summary }}</p>
 					{# Lien vers la fiche de la série : #}
-					<a href="{{ path("program_show", { programId: programCat.id }) }}">Voir la fiche</a>
+					<a href="{{ path("program_show", { slug: programCat.slug }) }}">Voir la fiche</a>
 				</div>
 			{% else %}
 				Aucune série trouvée.

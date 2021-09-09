@@ -38,7 +38,7 @@
 {% for season in seasons %}
   <div>
   <h3>saison {{ season.number}} </h3>
-  <a href="{{ path('program_season_show', {programId:program.id, seasonId:season.id} ) }}">Voir la saison</a>
+  <a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
 </div>
 {% endfor %}
 

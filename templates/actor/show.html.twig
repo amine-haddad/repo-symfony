@@ -9,7 +9,7 @@
 					<div class="card-group" style="heigth: 400px;">
 						<div class="card  m-4 p-1" style="height:auto;">
 							<div class="card-header">
-								<a href="{{ path("program_show", { programId: actorPrograms.id }) }}" class="btn btn-primary m-4 p-1">{{actorPrograms.title}}</a>
+								<a href="{{ path("program_show", { slug: actorPrograms.slug }) }}" class="btn btn-primary m-4 p-1">{{actorPrograms.title}}</a>
 								<img src="{{actorPrograms.poster}}" style="height:480px;" class="card-img-top figure-img img-fluid " alt="{{ actorPrograms.title }} poster">
 							</div>
 							<div class="card-body card text-white bg-dark m-4 p-1">
