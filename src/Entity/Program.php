@@ -67,6 +67,11 @@ class Program
      */
     private $actors;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     
 
     public function __construct()
@@ -182,6 +187,18 @@ class Program
         if ($this->actors->removeElement($actor)) {
             $actor->removeProgram($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

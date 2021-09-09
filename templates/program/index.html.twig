@@ -23,7 +23,7 @@
 								<p class="card-text" style="height:220px;" >{{ program.summary }}</p>
 								<p class="card-text">- Catégorie :{{ program.category.name }}</p>
 							</div>
-								<a href="{{ path("program_show", { programId: program.id }) }}" class="btn btn-primary m-4 p-1">Voir</a>
+								<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir</a>
 						</div>
 					</div>
 				</div>
