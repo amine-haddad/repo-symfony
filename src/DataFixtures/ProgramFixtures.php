@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -10,6 +11,11 @@ use Faker;
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
 {
+    private $slugger;
+    public function __construct(Slugify $slugger)
+    {
+        $this->slugger = $slugger;
+    }
     const PROGRAMS = ['Film 1','Film 2','Film 3','Film 4','Film 5','Film 6'];
     public function load(ObjectManager $manager)
     {
@@ -25,7 +31,9 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             for ($i = 0; $i < count(ActorFixtures::ACTORS); $i++) {   
                $program->addActor($this->getReference('actor_' . rand(0, count(ActorFixtures::ACTORS)-1), $program));
             }
-            $program->setTitle($programName . '_' . $key);
+            $program->setTitle($programName);
+            $slug = $this->slugger->generate($program->getTitle());
+            $program->setSlug($slug);
             $program->setSummary($faker->sentence());
             $program->setPoster($faker->imageUrl( 640, 480,['cinema']));
           
