@@ -8,6 +8,8 @@ use App\Repository\SeasonRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,7 +30,7 @@ class SeasonController extends AbstractController
     /**
      * @Route("/new", name="season_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,MailerInterface $mailer): Response
     {
         $season = new Season();
         $form = $this->createForm(SeasonType::class, $season);
@@ -38,6 +40,12 @@ class SeasonController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($season);
             $entityManager->flush();
+            $email = (new Email())
+            ->from($this->getParameter('mailer_from'))
+            ->to('jo@jo.fr')
+            ->subject('Une nouvelle saison'.' vient d\'être publiée !')
+            ->html($this->renderView('season/newSeasonEmail.html.twig', ['season' => $season]));
+            $mailer->send($email);
 
             return $this->redirectToRoute('season_index');
         }
