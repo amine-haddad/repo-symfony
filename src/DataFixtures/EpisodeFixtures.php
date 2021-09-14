@@ -32,7 +32,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
                         $episode->setSeason($this->getReference('season_' . $programId . $seasonId));
                     }
                     //$episode->setSeason($this->getReference('season_' . $seasonId));
-                    $episode->setTitle($episodes);
+                    $episode->setTitle($faker->sentence(4));
                     $slug = $this->slugger->generate($episode->getTitle());
                     $episode->setSlug($slug);
                     $episode->setNumber($episodeId);

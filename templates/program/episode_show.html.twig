@@ -1,14 +1,38 @@
 {% extends "base.html.twig" %}
 {% block body %}
-<div class="card">
-<div clas="row">
-<div class="col">
-<h1>Titre : {{ program.title}}</h1>
-<h3>Saison : {{ season.number}}</h3>
-<h2>Episode : {{ episodes.number}} / Titre : {{ episodes.title}}</h2>
-<p>Synopsys :</p>
-<p>{{episodes.synopsis }}:</p>
-</div>
+	<div class="card">
+		<div clas="row">
+			<div class="col">
+				<h1>Titre :
+					{{ program.title}}</h1>
+				<h3>Saison :
+					{{ season.number}}</h3>
+				<h2>Episode :
+					{{ episodes.number}}
+					/ Titre :
+					{{ episodes.title}}</h2>
+				<p>Synopsys :</p>
+				<p>{{episodes.synopsis }}:</p>
+					<h1>commentaires</h1>
+				{% for comment in comments %}
+                
+					<h2>{{comment.comment}}</h2>
+				
+                    <h4>{{comment.author.firstname}}</h4>
+                  
+					
+				{% endfor %}
 
-</div>
-{% endblock %}
+				{% if is_granted('ROLE_USER') %}
+					{{ form_start(form) }}
+					{{ form_widget(form) }}
+					<button class="btn">{{ button_label|default('Add Comment') }}</button>
+					{{ form_end(form) }}
+					{% else %}
+                    <p>Connectez vous pour laisser votre commentaire!</p>
+				{% endif %}
+			</div>
+
+
+		</div>
+	{% endblock %}
