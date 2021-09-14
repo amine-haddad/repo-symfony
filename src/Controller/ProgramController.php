@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Form\CommentType;
 use App\Form\ProgramType;
 use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\Mapping\OrderBy;
 
 /**
  * @Route("/programs", name="program_")
@@ -145,14 +148,17 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}/season/{seasonId}/episodes/{slugy}", name="episode_show", methods={"GET"})
+     * @Route("/{slug}/season/{seasonId}/episodes/{slugy}", name="episode_show")
+     * 
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"slug": "slug"}})
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"seasonId": "id"}})
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"slugy": "slug"}})
      * @return Response
      */
-    public function showEpisode(Program $program, Season $season, Episode $episode)
+    public function showEpisode(Request $request,Program $program, Season $season, Episode $episode)
     {
+        $comment = new Comment();
+        
         if (!$program) {
             throw $this->createNotFoundException(
                 'No program with id : ' . $program . ' found in program\'s table.'
@@ -163,16 +169,33 @@ class ProgramController extends AbstractController
                 'No season with id : ' . $season . ' found in season\'s table.'
             );
         }
-
+        
         if (!$episode) {
             throw $this->createNotFoundException(
                 'No episode with id : ' . $episode . ' found in episode\'s table.'
             );
         }
+        $comments = $episode->getComments();
+        $form = $this->createForm(CommentType::class,$comment);
+        // Get data from HTTP request
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $comment->setAuthor($this->getUser());
+            $comment->setEpisode($episode);
+            $entityManager = $this->getDoctrine()->getManager();
+            //For exemple : persiste & flush the entity
+            // Persist Category Object
+            $entityManager->persist($comment);
+            //Flush the persisted object
+            $entityManager->flush();
+        }
         return $this->render('program/episode_show.html.twig', [
             'season' => $season,
             'program' => $program,
-            'episodes' => $episode
+            'episodes' => $episode,
+            'comment' => $comment,
+            'comments' => $comments,
+            "form" => $form->createView(),
         ]);
     }
 

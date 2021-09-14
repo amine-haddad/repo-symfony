@@ -31,7 +31,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             for ($i = 0; $i < count(ActorFixtures::ACTORS); $i++) {   
                $program->addActor($this->getReference('actor_' . rand(0, count(ActorFixtures::ACTORS)-1), $program));
             }
-            $program->setTitle($programName);
+            $program->setTitle($faker->sentence(rand(3, 6)));
             $slug = $this->slugger->generate($program->getTitle());
             $program->setSlug($slug);
             $program->setSummary($faker->sentence());

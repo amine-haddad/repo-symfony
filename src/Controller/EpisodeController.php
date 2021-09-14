@@ -61,7 +61,8 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/{slugy}", name="episode_show", methods={"GET"})
+     * @Route("/{slug}", name="episode_show", methods={"GET"})
+     * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"slug": "slug"}})
      */
     public function show(Episode $episode): Response
     {
