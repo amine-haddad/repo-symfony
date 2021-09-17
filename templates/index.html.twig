@@ -1,5 +1,11 @@
 {% extends "base.html.twig" %}
 {% block body %}
-   <h1>Bienvenue!</h1>
+   <h1>Bienvenue!   
+			{% if is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN') %}
+				{{app.user.firstname}}
+            <p>Email:
+					{{ app.user.email }}</p>
+			{% endif %}	
+   </h1>
   
 {% endblock %}

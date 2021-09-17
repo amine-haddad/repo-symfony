@@ -6,7 +6,6 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Faker;
 
 
@@ -33,7 +32,7 @@ class UserFixtures extends Fixture
             $contributor,
             'contributorpassword'
         ));
-       
+        $this->addReference('user_',$contributor);
         $manager->persist($contributor);
         
         // Création d’un utilisateur de type “administrateur”
@@ -49,7 +48,7 @@ class UserFixtures extends Fixture
         ));
 
         $manager->persist($admin);
-
+        $this->addReference('user_',$admin);
         $manager->flush();
     }
 }

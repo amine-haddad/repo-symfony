@@ -9,32 +9,40 @@
 	<div class="container-fluid">
 		<div class="row">
 			{{ numberPrograms }}
-			
+
 			{% for program in programs %}
 				<div class="col-sm-3">
 					<div class="card-group" style="heigth: 500px;">
-						<div class="card m-4 p-1" style="height:auto;" >
+						<div class="card m-4 p-1" style="height:auto;">
 							<h5 class="card-title, ">{{ loop.index }}.{{ program.title }}</h5>
 							<div class="card-header">
-								<img src="{{program.poster}}"style="height:480px;" class="card-img-top figure-img img-fluid " alt="{{ program.title }} poster">
+								<img src="{{program.poster}}" style="height:480px;" class="card-img-top figure-img img-fluid " alt="{{ program.title }} poster">
 							</div>
-							<div class="card-body card text-white bg-dark m-4 p-1" >
-								<h5 class="card-title" >{{ loop.index }}.{{ program.title }}</h5>
-								<p class="card-text" style="height:220px;" >{{ program.summary }}</p>
+							<div class="card-body card text-white bg-dark m-4 p-1">
+								<h5 class="card-title">{{ loop.index }}.{{ program.title }}</h5>
+								<p class="card-text" style="height:220px;">{{ program.summary }}</p>
 								<p class="card-text">- Catégorie :{{ program.category.name }}</p>
 							</div>
-								<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir</a>
+							<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir</a>
+							{% if program.owner == app.user %}
+							
+							{% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
+								<a href="{{ path('program_edit', { 'slug': program.slug} ) }}"class="btn btn-primary m-4 p-1">Éditer</a>
+								{% endif %}
+								
+							{% endif %}
+							
+							</div>
 						</div>
 					</div>
-				</div>
-			{% else %}
-				Aucune série trouvée.
-			{% endfor %}
+				{% else %}
+					Aucune série trouvée.
+				{% endfor %}
+			</div>
 		</div>
-	</div>
-	<div class="container">
-		<a class="btn btn-primary" href="{{ path('app_index') }}">
-			Retour à l'accueil
-		</a>
-	</div>
-{% endblock %}
+		<div class="container">
+			<a class="btn btn-primary" href="{{ path('app_index') }}">
+				Retour à l'accueil
+			</a>
+		</div>
+	{% endblock %}

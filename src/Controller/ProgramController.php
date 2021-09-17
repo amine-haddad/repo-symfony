@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\Mapping\OrderBy;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/programs", name="program_")
@@ -52,7 +52,7 @@ class ProgramController extends AbstractController
      * 
      * @Route("/new", name="new")
      */
-    public function new(Request $request,MailerInterface $mailer, Slugify $slugify): Response
+    public function new(Request $request, MailerInterface $mailer, Slugify $slugify): Response
     {
         //create a new Program object
         $program = new Program();
@@ -68,16 +68,18 @@ class ProgramController extends AbstractController
             $program->setSlug($slug);
             //Get the Entity Manager
             $entityManager = $this->getDoctrine()->getManager();
+            // Set the program's owner
+            $program->setOwner($this->getUser());
             //For exemple : persiste & flush the entity
-            // Persist Category Object
+            // Persist Program Object
             $entityManager->persist($program);
             //Flush the persisted object
             $entityManager->flush();
             $email = (new Email())
-            ->from($this->getParameter('mailer_from'))
-            ->to('jo@jo.fr')
-            ->subject('Une nouvelle série vient d\'être publiée !')
-            ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
+                ->from($this->getParameter('mailer_from'))
+                ->to('jo@jo.fr')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html($this->renderView('program/newProgramEmail.html.twig', ['program' => $program]));
             $mailer->send($email);
 
             //And redirect to a route that display the result
@@ -155,10 +157,10 @@ class ProgramController extends AbstractController
      * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"slugy": "slug"}})
      * @return Response
      */
-    public function showEpisode(Request $request,Program $program, Season $season, Episode $episode)
+    public function showEpisode(Request $request, Program $program, Season $season, Episode $episode)
     {
         $comment = new Comment();
-        
+
         if (!$program) {
             throw $this->createNotFoundException(
                 'No program with id : ' . $program . ' found in program\'s table.'
@@ -169,17 +171,18 @@ class ProgramController extends AbstractController
                 'No season with id : ' . $season . ' found in season\'s table.'
             );
         }
-        
+
         if (!$episode) {
             throw $this->createNotFoundException(
                 'No episode with id : ' . $episode . ' found in episode\'s table.'
             );
         }
         $comments = $episode->getComments();
-        $form = $this->createForm(CommentType::class,$comment);
+        
+        $form = $this->createForm(CommentType::class, $comment);
         // Get data from HTTP request
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment->setAuthor($this->getUser());
             $comment->setEpisode($episode);
             $entityManager = $this->getDoctrine()->getManager();
@@ -188,17 +191,60 @@ class ProgramController extends AbstractController
             $entityManager->persist($comment);
             //Flush the persisted object
             $entityManager->flush();
+
         }
         return $this->render('program/episode_show.html.twig', [
             'season' => $season,
             'program' => $program,
-            'episodes' => $episode,
+            'episode' => $episode,
             'comment' => $comment,
             'comments' => $comments,
             "form" => $form->createView(),
+            //'user'=> $user
+        ]);
+    }
+    /**
+     * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Program $program): Response
+    {
+        // Check wether the logged in user is the owner of the program
+        if (!($this->getUser() == $program->getOwner())) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw new AccessDeniedException('Only the owner can edit the program!');
+        }
+        // ...
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('program_index');
+        }
+
+        return $this->render('program/edit.html.twig', [
+            'program' => $program,
+            'form' => $form->createView(),
         ]);
     }
 
+    
+
+    /**
+     * @Route("/{slug}", name="delete", methods={"POST"})
+     * 
+     */
+    public function delete(Request $request, Program $program): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($program);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('program_index');
+    }
     /** 
      * @Route("/student/ajax") 
      */
