@@ -1,5 +1,23 @@
 {% extends "base.html.twig" %}
 {% block body %}
-   <h1>Bienvenue!</h1>
-  
+	<h1>Bienvenue!
+		{% if is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+			{{app.user.firstname}}
+			<p>Email:
+				{{ app.user.email }}</p>
+		{% endif %}
+	</h1>
+	<h2>Dernier program ajouter</h2<
+	{% for program in programs | reverse %}
+		<div>
+			<ul>
+				<li>{{program.title}}</li>
+				<li><img src='{{program.poster}}'></li>
+				<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir la serie</a>
+			</ul>
+
+		</div>
+
+	{% endfor %}
+
 {% endblock %}

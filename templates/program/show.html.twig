@@ -2,6 +2,7 @@
 {% block title %}Série #{{ program.id }}{% endblock %}
 
 {% block body %}
+{#{{ dump(seasons)}}#}
 <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
@@ -9,7 +10,7 @@
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{ program.title }}e</h5>
+        <h5 class="card-title">{{ program.title }}</h5>
         <p class="card-text">{{ program.summary }}</p>
         <p class="card-text"><small class="text-muted">Catégorie : {{ program.category.name }}</small></p>
       </div>
@@ -37,7 +38,7 @@
 {% for season in seasons %}
   <div>
   <h3>saison {{ season.number}} </h3>
-  <a href="{{ path('program_season_show', {programId:program.id, seasonId:season.id} ) }}">Voir la saison</a>
+  <a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
 </div>
 {% endfor %}
 
