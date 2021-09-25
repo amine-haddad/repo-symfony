@@ -24,9 +24,7 @@ class CommentController extends AbstractController
 
     /**
      * @Route("/comment/{id}/", name="comment_delete", methods={"POST"})
-     * @ParamConverter("program", class="App\Entity\Program",}})
-     * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"seasonId": "id"}})
-     * @ParamConverter("episode", class="App\Entity\Episode", options={"mapping": {"slugy": "slug"}})
+     * 
      * 
      */
     public function removeComment(Request $request, Comment $comment): Response
@@ -38,6 +36,10 @@ class CommentController extends AbstractController
             $this->addFlash('success', 'Le commentaire a bien été supprimé');
         }
 
-        return $this->redirectToRoute('program_index');
+        return $this->redirectToRoute('program_index'/*,[
+            'slug'=>'slug',
+            'seasonId'=>'id',
+            'slugy'=>'slugy'
+        ]*/);
     }
 }
