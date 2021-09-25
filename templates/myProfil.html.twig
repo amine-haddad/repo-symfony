@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% block body %}
+<h1>Mon profil:</h1>
+{% if is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
+			{{app.user.firstname}}
+            {{app.user.lastname}}
+            <p>Date de naissance:
+				{{ app.user.birthdayDate|format_datetime('medium', 'short')}}</p>
+			 <p>Mes commentaires:
+			 {% for comment in app.user.comments %}
+				{#{{ dump(comment)}}#}
+				commentaire que vous avez postez :{{ comment.comment}}- à propos de l'episode :{{ comment.episode.title }}</p>
+				 
+			 {% endfor %}
+			<p>Email:
+				{{ app.user.email }}</p>
+                <p>Role:
+				{% for roles in app.user.roles %}
+					
+				{{ roles }}</p>
+				{% endfor %}
+		{% endif %}
+{% endblock %}

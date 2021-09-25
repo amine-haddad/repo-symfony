@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Program;
+use App\Entity\User;
 use App\Service\Slugify;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -36,7 +37,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSlug($slug);
             $program->setSummary($faker->sentence());
             $program->setPoster($faker->imageUrl( 640, 480,['cinema']));
-          
+            $program->setOwner($this->getReference('user_' , $program));
             $manager->persist($program);
             $this->addReference('program_' . $key, $program);
         }
@@ -47,6 +48,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         return [    
             ActorFixtures::class,
             CategoryFixtures::class,
+            UserFixtures::class
         ];
     }
 }
