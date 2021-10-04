@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,24 +33,31 @@ class ProgramController extends AbstractController
      * @Route("/", name="index")
      * @return Response A response instance
      */
-    public function index(Request $request, ProgramRepository $programRepository): Response
+    public function index (SessionInterface $session, Request $request, ProgramRepository $programRepository): Response
     {
         /*$programs = $this->getDoctrine()
-
-            ->getRepository(Program::class)
-            ->findAll();*/
-            // Create the associated Form
-            $form = $this->createForm(SearchProgramFormType::class);
-            // Get data from HTTP request
-            $form->handleRequest($request);
-             // Was the form is submitted?
-        if ($form->isSubmitted() && $form->isValid()){
-            $search = $form->getData()['search'];
-            $programs = $programRepository->findLikeName($search);
-        }else{
-            $programs= $programRepository->findAll();
+        
+        ->getRepository(Program::class)
+        ->findAll();*/
+        if (!$session->has('total')) {
+            $session->set('total', 40); // if total doesn’t exist in session, it is initialized.
         }
+        $total = $session->get('total'); // get actual value in session with ‘total' key.
+        // ...
+        // Create the associated Form
+        $form = $this->createForm(SearchProgramFormType::class);
+        // Get data from HTTP request
+        $form->handleRequest($request);
+        // Was the form is submitted?
+        if ($form->isSubmitted() && $form->isValid()){
+                $search = $form->getData()['search'];
+                $programs = $programRepository->findLikeName($search);
+            }else{
+                $programs= $programRepository->findAll();
+            }
             
+            // some code using $session
+        
         
         return $this->render(
             'program/index.html.twig',
@@ -59,6 +67,7 @@ class ProgramController extends AbstractController
                 'website' => 'Wild Séries',
                 'programs' => $programs,
                 'form' => $form->createView(),
+                'total' => $total,
             ]
         );
     }
@@ -91,6 +100,8 @@ class ProgramController extends AbstractController
             $entityManager->persist($program);
             //Flush the persisted object
             $entityManager->flush();
+            // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
+            $this->addFlash('success', 'The new program has been created');
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('jo@jo.fr')
@@ -235,6 +246,7 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('warning', 'This program has been updated');
 
             return $this->redirectToRoute('program_index');
         }
@@ -257,6 +269,7 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($program);
             $entityManager->flush();
+            $this->addFlash('danger', 'This program has been Deleted');
         }
 
         return $this->redirectToRoute('program_index');

@@ -40,6 +40,7 @@ class SeasonController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($season);
             $entityManager->flush();
+            $this->addFlash('success', 'The new season has been created');
             $email = (new Email())
             ->from($this->getParameter('mailer_from'))
             ->to('jo@jo.fr')
@@ -47,7 +48,7 @@ class SeasonController extends AbstractController
             ->html($this->renderView('season/newSeasonEmail.html.twig', ['season' => $season]));
             $mailer->send($email);
 
-            return $this->redirectToRoute('season_index');
+            return $this->redirectToRoute('program_index');
         }
 
         return $this->render('season/new.html.twig', [
@@ -76,8 +77,9 @@ class SeasonController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('warning', 'This season has been updated');
 
-            return $this->redirectToRoute('season_index');
+            return $this->redirectToRoute('Program_index');
         }
 
         return $this->render('season/edit.html.twig', [
@@ -95,8 +97,9 @@ class SeasonController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($season);
             $entityManager->flush();
+            $this->addFlash('danger', 'This season has been Deleted');
         }
 
-        return $this->redirectToRoute('season_index');
+        return $this->redirectToRoute('program_index');
     }
 }
