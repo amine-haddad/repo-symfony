@@ -44,6 +44,7 @@ class EpisodeController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($episode);
             $entityManager->flush();
+            $this->addFlash('success', 'The new episode has been created');
             $email = (new Email())
             ->from($this->getParameter('mailer_from'))
             ->to('jo@jo.fr')
@@ -51,7 +52,7 @@ class EpisodeController extends AbstractController
             ->html($this->renderView('episode/newEpisodeEmail.html.twig', ['episode' => $episode]));
             $mailer->send($email);
 
-            return $this->redirectToRoute('episode_index');
+            return $this->redirectToRoute('program_index');
         }
 
         return $this->render('episode/new.html.twig', [
@@ -82,8 +83,9 @@ class EpisodeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('warning', 'This episode has been updated');
 
-            return $this->redirectToRoute('episode_index');
+            return $this->redirectToRoute('program_index');
         }
 
         return $this->render('episode/edit.html.twig', [
@@ -93,7 +95,7 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/{slugy}", name="episode_delete", methods={"POST"})
+     * @Route("/{slug}", name="episode_delete", methods={"POST"})
      */
     public function delete(Request $request, Episode $episode): Response
     {
@@ -101,6 +103,7 @@ class EpisodeController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($episode);
             $entityManager->flush();
+            $this->addFlash('danger', 'This episode has been Deleted');
         }
 
         return $this->redirectToRoute('episode_index');

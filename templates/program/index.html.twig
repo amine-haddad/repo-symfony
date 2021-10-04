@@ -13,9 +13,16 @@
 			{{ form_widget(form) }}
 			<input type='submit' value='search'>
 			{{ form_end(form) }}
+			{{ app.session.get('total')  }}
+			
 			<pre>
-				{{ dump(form) }}
+				{{ dump(app.session) }}
 			</pre>
+			{% if app.user == true %}
+				{{app.user.firstname}}
+
+			{% endif %}
+
 
 			{% for program in programs %}
 				<div class="col-sm-3">
