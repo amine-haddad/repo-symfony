@@ -22,19 +22,21 @@ class ProgramRepository extends ServiceEntityRepository
     // /**
     //  * @return Program[] Returns an array of Program objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findLikeName(string $name)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
+            ->andWhere('p.title Like :name')
+            ->join('p.actors','pa')
+            ->orWhere('pa.name LIKE :name')
+            ->setParameter('name','%'. $name.'%')
+            ->orderBy('p.title', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Program
