@@ -8,7 +8,7 @@
 				{{ app.user.birthdayDate|format_datetime('medium', 'short')}}</p>
 			 <p>Mes commentaires:
 			 {% for comment in app.user.comments %}
-				{#{{ dump(comment)}}#}
+				{{ dump(app.user)}}
 				commentaire que vous avez postez :{{ comment.comment}}- à propos de l'episode :{{ comment.episode.title }}</p>
 				 
 			 {% endfor %}

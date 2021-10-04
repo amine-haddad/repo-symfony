@@ -8,6 +8,8 @@ use App\Entity\Program;
 use App\Entity\Season;
 use App\Form\CommentType;
 use App\Form\ProgramType;
+use App\Form\SearchProgramFormType;
+use App\Repository\ProgramRepository;
 use App\Service\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,19 +32,33 @@ class ProgramController extends AbstractController
      * @Route("/", name="index")
      * @return Response A response instance
      */
-    public function index(): Response
+    public function index(Request $request, ProgramRepository $programRepository): Response
     {
-        $programs = $this->getDoctrine()
+        /*$programs = $this->getDoctrine()
 
             ->getRepository(Program::class)
-            ->findAll();
+            ->findAll();*/
+            // Create the associated Form
+            $form = $this->createForm(SearchProgramFormType::class);
+            // Get data from HTTP request
+            $form->handleRequest($request);
+             // Was the form is submitted?
+        if ($form->isSubmitted() && $form->isValid()){
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        }else{
+            $programs= $programRepository->findAll();
+        }
+            
+        
         return $this->render(
             'program/index.html.twig',
             [
 
                 'numberPrograms' => count($programs) . " programs dans le catalogue",
                 'website' => 'Wild Séries',
-                'programs' => $programs
+                'programs' => $programs,
+                'form' => $form->createView(),
             ]
         );
     }
