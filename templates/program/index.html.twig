@@ -9,6 +9,13 @@
 	<div class="container-fluid">
 		<div class="row">
 			{{ numberPrograms }}
+			{{ form_start(form) }}
+			{{ form_widget(form) }}
+			<input type='submit' value='search'>
+			{{ form_end(form) }}
+			<pre>
+				{{ dump(form) }}
+			</pre>
 
 			{% for program in programs %}
 				<div class="col-sm-3">
@@ -25,24 +32,24 @@
 							</div>
 							<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir</a>
 							{% if program.owner == app.user %}
-							
-							{% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
-								<a href="{{ path('program_edit', { 'slug': program.slug} ) }}"class="btn btn-primary m-4 p-1">Éditer</a>
+
+								{% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
+									<a href="{{ path('program_edit', { 'slug': program.slug} ) }}" class="btn btn-primary m-4 p-1">Éditer</a>
 								{% endif %}
-								
+
 							{% endif %}
-							
-							</div>
+
 						</div>
 					</div>
-				{% else %}
-					Aucune série trouvée.
-				{% endfor %}
-			</div>
+				</div>
+			{% else %}
+				Aucune série trouvée.
+			{% endfor %}
 		</div>
-		<div class="container">
-			<a class="btn btn-primary" href="{{ path('app_index') }}">
-				Retour à l'accueil
-			</a>
-		</div>
-	{% endblock %}
+	</div>
+	<div class="container">
+		<a class="btn btn-primary" href="{{ path('app_index') }}">
+			Retour à l'accueil
+		</a>
+	</div>
+{% endblock %}
