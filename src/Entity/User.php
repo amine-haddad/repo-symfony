@@ -203,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Collection|Comment[]git checkout comit
      */
     public function getComments(): Collection
     {
