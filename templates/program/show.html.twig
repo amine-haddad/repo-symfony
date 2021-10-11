@@ -1,51 +1,66 @@
 {% extends "base.html.twig" %}
-{% block title %}Série #{{ program.id }}{% endblock %}
+{% block title %}Série #{{ program.id }}
+{% endblock %}
 
 {% block body %}
-{#{{ dump(seasons)}}#}
-<div class="card mb-3" style="max-width: 540px;">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="{{program.poster}}" class="img-fluid rounded-start" alt="{{ program.title }} poster">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body">
-        <h5 class="card-title">{{ program.title }}</h5>
-        <p class="card-text">{{ program.summary }}</p>
-        <p class="card-text"><small class="text-muted">Catégorie : {{ program.category.name }}</small></p>
-      </div>
-    </div>
-  </div>
-</div>
+	{#{{ dump(seasons)}}#}
+	<div class="card mb-3" style="max-width: 540px;">
+		<div class="row g-0">
+			<div class="col-md-4">
+				<img src="{{program.poster}}" class="img-fluid rounded-start" alt="{{ program.title }} poster">
+			</div>
+			<div class="col-md-8">
+				<div class="card-body">
+					<h5 class="card-title">{{ program.title }}</h5>
+					<p class="card-text">{{ program.summary }}</p>
+					<p class="card-text">
+						<small class="text-muted">Catégorie :
+							{{ program.category.name }}</small>
+					</p>
+          {#bouton ajout a la watchlist#}
+          <pre>
+            {{ dump(app.user.isInWatchlist(program)) }}
+          </pre>
+          <pre>
+            {{ dump(app.user.getWatchlist()) }}
+          </pre>
+					<a href="{{ path('program_watchlist', {id: program.id})}}">
+						<i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <strong>Acteurs :</strong>
+	<strong>Acteurs :</strong>
 
-<ul>
+	<ul>
 
-    {% for actor in program.actors %}
+		{% for actor in program.actors %}
 
-        <li>{{ actor.name }} </li>
+			<li>{{ actor.name }}
+			</li>
 
-    {% else %}
+		{% else %}
 
-        <li>Aucun acteur pour cette série</li>
+			<li>Aucun acteur pour cette série</li>
 
-    {% endfor %}
+		{% endfor %}
 
-</ul>
+	</ul>
 
 </div>
 {% for season in seasons %}
-  <div>
-  <h3>saison {{ season.number}} </h3>
-  <a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
-</div>
+	<div>
+		<h3>saison
+			{{ season.number}}
+		</h3>
+		<a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
+	</div>
 {% endfor %}
 
-<div><a href="{{ path('program_index') }}">
-    Retour à la liste des programmes
-</a></div>
-
-
-
-{% endblock %}
+<div>
+	<a href="{{ path('program_index') }}">
+		Retour à la liste des programmes
+	</a>
+</div>{% endblock %}
