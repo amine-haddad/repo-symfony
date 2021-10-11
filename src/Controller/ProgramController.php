@@ -11,6 +11,7 @@ use App\Form\ProgramType;
 use App\Form\SearchProgramFormType;
 use App\Repository\ProgramRepository;
 use App\Service\Slugify;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -143,6 +144,28 @@ class ProgramController extends AbstractController
             'program' => $programId,
             'seasons' => $seasons
         ]);
+    }
+
+    /**
+     * @Route("/{id}/watchlist", name="watchlist", methods={"GET","POST"})
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"id": "id"}})
+     * 
+     * 
+     * @return Response
+     */
+    public function addToWatchlist(Program $program, EntityManagerInterface $entityManager)
+    {
+        if($this->getUser()->isInWatchlist($program))
+        {
+        $this->getUser()->removeFromWatchlist($program);
+        } else {
+            $this->getUser()->addToWatchlist($program);
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('program_show', [
+            'slug'=>$program->getSlug(),
+        ]);
+
     }
 
     /**
