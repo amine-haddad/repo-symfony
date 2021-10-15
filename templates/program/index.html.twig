@@ -11,7 +11,7 @@
 			{{ numberPrograms }}
 			{{ form_start(form) }}
 			{{ form_widget(form) }}
-			<input type='submit' value='search'>
+			<input type='submit' value='rechercher'>
 			{{ form_end(form) }}
 			{{ app.session.get('total')  }}
 			
@@ -50,13 +50,15 @@
 					</div>
 				</div>
 			{% else %}
-				Aucune série trouvée.
+				No series found.
 			{% endfor %}
 		</div>
 	</div>
 	<div class="container">
 		<a class="btn btn-primary" href="{{ path('app_index') }}">
-			Retour à l'accueil
-		</a>
+		
+			Back Home
+	
+		</a>% 
 	</div>
 {% endblock %}

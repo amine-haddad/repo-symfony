@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/categories", name="category_")
@@ -38,7 +39,7 @@ class CategoryController extends AbstractController
      * @Route("/new", name="new")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function new(Request $request):Response
+    public function new(Request $request, TranslatorInterface $translator):Response
     {
         //create a new Category object
         $category = new Category();
@@ -56,6 +57,8 @@ class CategoryController extends AbstractController
             $entityManager->persist($category);
             //Flush the persisted object
             $entityManager->flush();
+            $message = $translator->trans('a new category has created');
+            $this->addFlash('success', $message);
             //And redirect to a route that display the result
             return $this->redirectToRoute('category_index');
         }

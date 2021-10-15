@@ -23,7 +23,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: program_index
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -34,8 +34,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-    - { path: ^/programs/new, roles: ROLE_CONTRIBUTOR }
-    - { path: ^/programs/[a-z-]+/edit, roles: ROLE_CONTRIBUTOR }
+    - { path: ^/[a-z-]+/programs/new, roles: ROLE_CONTRIBUTOR }
+    - { path: ^[a-z-]+//programs/[a-z-]+/edit, roles: ROLE_CONTRIBUTOR }
+    - { path: ^/[a-z-]+/season, roles: ROLE_CONTRIBUTOR }
+    - { path: ^/[a-z-]+/season/new, roles: ROLE_CONTRIBUTOR }
+    - { path: ^[a-z-]+//season/[a-z-]+/edit, roles: ROLE_CONTRIBUTOR }
+    - { path: ^/[a-z-]+/episode, roles: ROLE_CONTRIBUTOR }
+    - { path: ^/[a-z-]+/episode/new, roles: ROLE_CONTRIBUTOR }
+    - { path: ^[a-z-]+//episode/[a-z-]+/edit, roles: ROLE_CONTRIBUTOR }
     role_hierarchy:
         ROLE_CONTRIBUTOR: ROLE_USER
         ROLE_ADMIN: ROLE_CONTRIBUTOR

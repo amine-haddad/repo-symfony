@@ -1,0 +1,20 @@
+hello_username: 'Hello %username%'
+account.logout: Logout
+account.login: Login
+account.register: Register
+account.program.show: See
+account.program.index: 'All series'
+account.index: Home
+account.categories: Categories
+actors: Actors
+my.profil: 'My profile'
+my.compte: 'My compte'
+'a new category has created': 'New category has created'
+'The new episode has been created': 'The new episode has been created'
+'This episode has been updated': 'This episode has been updated'
+'The new program has been created': 'The new program has been created'
+'This program has been updated': 'This program has been updated'
+'The new season has been created': 'The new season has been created'
+'This season has been updated': 'This season has been updated'
+langue: language
+My.favorit: My favorites

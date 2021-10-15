@@ -23,6 +23,12 @@
 		  	<a id="watchlist" href="{{ path('program_watchlist', {id: program.id})}}">
 						<i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
 					</a>
+					<pre>
+            {{ dump(app.user.isInWatchlist(program)) }}
+          </pre>
+          <pre>
+            {{ dump(app.user.getWatchlist()) }}
+          </pre>
 		  {% endif %}
 				</div>
 			</div>
