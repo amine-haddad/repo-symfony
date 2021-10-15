@@ -22,6 +22,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/programs", name="program_")
@@ -51,7 +52,7 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
         // Was the form is submitted?
         if ($form->isSubmitted() && $form->isValid()){
-                $search = $form->getData()['search'];
+                $search = $form->getData()['rechercher'];
                 $programs = $programRepository->findLikeName($search);
             }else{
                 $programs= $programRepository->findAll();
@@ -78,7 +79,7 @@ class ProgramController extends AbstractController
      * 
      * @Route("/new", name="new")
      */
-    public function new(Request $request, MailerInterface $mailer, Slugify $slugify): Response
+    public function new(Request $request, MailerInterface $mailer, Slugify $slugify, TranslatorInterface $translator): Response
     {
         //create a new Program object
         $program = new Program();
@@ -102,7 +103,8 @@ class ProgramController extends AbstractController
             //Flush the persisted object
             $entityManager->flush();
             // Once the form is submitted, valid and the data inserted in database, you can define the success flash message
-            $this->addFlash('success', 'The new program has been created');
+            $message = $translator->trans('The new program has been created');
+            $this->addFlash('success', $message );
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('jo@jo.fr')
@@ -256,7 +258,7 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{slug}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Program $program): Response
+    public function edit(Request $request, Program $program, TranslatorInterface $translator): Response
     {
         // Check wether the logged in user is the owner of the program
         if (!($this->getUser() == $program->getOwner())) {
@@ -269,7 +271,8 @@ class ProgramController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('warning', 'This program has been updated');
+            $message = $translator->trans('This program has been updated');
+            $this->addFlash('warning', $message);
 
             return $this->redirectToRoute('program_index');
         }

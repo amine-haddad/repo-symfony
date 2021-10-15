@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\Translation\Test\TranslatorTest;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * @Route("/season")
@@ -30,7 +32,7 @@ class SeasonController extends AbstractController
     /**
      * @Route("/new", name="season_new", methods={"GET","POST"})
      */
-    public function new(Request $request,MailerInterface $mailer): Response
+    public function new(Request $request,MailerInterface $mailer, TranslatorInterface $translator): Response
     {
         $season = new Season();
         $form = $this->createForm(SeasonType::class, $season);
@@ -40,7 +42,8 @@ class SeasonController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($season);
             $entityManager->flush();
-            $this->addFlash('success', 'The new season has been created');
+            $message = $translator->trans('The new season has been created');
+            $this->addFlash('success', $message);
             $email = (new Email())
             ->from($this->getParameter('mailer_from'))
             ->to('jo@jo.fr')
@@ -70,14 +73,15 @@ class SeasonController extends AbstractController
     /**
      * @Route("/{id}/edit", name="season_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Season $season): Response
+    public function edit(Request $request, Season $season, TranslatorInterface $translator): Response
     {
         $form = $this->createForm(SeasonType::class, $season);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('warning', 'This season has been updated');
+            $message = $translator->trans('This season has been updated');
+            $this->addFlash('warning', $message);
 
             return $this->redirectToRoute('Program_index');
         }
