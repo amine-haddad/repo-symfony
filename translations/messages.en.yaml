@@ -17,4 +17,5 @@ my.compte: 'My compte'
 'The new season has been created': 'The new season has been created'
 'This season has been updated': 'This season has been updated'
 langue: language
-My.favorit: My favorites
+My.favorit: 'My favorites'
+'''rechercher''': search
