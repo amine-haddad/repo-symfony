@@ -11,7 +11,7 @@
 			{{ numberPrograms }}
 			{{ form_start(form) }}
 			{{ form_widget(form) }}
-			<input type='submit' value='rechercher'>
+			<input type='submit' value={% trans %}'rechercher'{% endtrans %}>
 			{{ form_end(form) }}
 			{{ app.session.get('total')  }}
 			
