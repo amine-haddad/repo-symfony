@@ -72,7 +72,7 @@
 					{% if locale != app.request.locale %}
 						<a href="{{ path(app.request.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': locale})) }}">
 							
-							<img src='{{ asset('build/'~locale~'.png') }}'alt="{{locale|upper}}">
+							{{locale|upper}}:<img src='{{ asset('build/'~locale~'.png') }}'alt="{{locale|upper}}" width="40 px">
 							
 						</a>
 					{% endif %}
