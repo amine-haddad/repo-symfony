@@ -20,5 +20,30 @@ langue: langue
 My.favorit: 'Mes favoris'
 '''rechercher''': rechercher
 Welcome!: Bienvenue!
-category_show: __category_show
+category_show: categories
 Menu: Menu
+app.category: Categorie
+app.actors: Acteurs
+app.no_actors: 'aucun acteur dans la serie'
+app.season: Saison
+app.sea_season: 'Voir la saison'
+app.back_serie: 'Retour aux séries'
+app.home: Accueil
+app.all_series: 'Toutes les Séries'
+app.categorie: Catégorie
+app.see: Voir
+app.edit: Editer
+app.no_series_found: 'Aucune série trouvée'
+app.back_Home: 'Retour a l''accueil'
+app.id_season: 'Id de la saison'
+app.name_serie: 'Nom de la série'
+app.description: Déscription
+app.title: Title
+app.indice_episode: 'Indice de l''épisode'
+app.episode: Episode
+app.synopsys: Synopsys
+app.back_season: 'Retour aux saisons'
+comment: Commentaire
+Delete: Effacer
+'Login to leave your comment': 'Connectez-vous pour laisser un commentaire'
+app.search: Rechercher

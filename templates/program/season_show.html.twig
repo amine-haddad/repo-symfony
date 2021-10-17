@@ -7,17 +7,17 @@
 		<div class="media-body">
 			<h1 class="mt-0">{{ program.title }}</h1>
 			<p>{{ program.summary }}</p>
-			<p>Catégorie :
+			<p>{% trans %}app.categorie{% endtrans %} :
 				{{ program.category.name }}</p>
 		</div>
 		<div class="container-fluid">
 			<p>
-				id de la saison :{{season.id}}</p>
+				{% trans %}app.id_season{% endtrans %} :{{season.id}}</p>
 			<p>
-				nom de la serie :{{season.program.title}}</p>
-			<p>Saison :{{season.number}}</p>
+				{% trans %}app.name_serie{% endtrans %} :{{season.program.title}}</p>
+			<p>{% trans %}app.season{% endtrans %} :{{season.number}}</p>
 			<p>Année de sortie :{{ season.year}}</p>
-			<p>Desciption
+			<p>{% trans %}app.description{% endtrans %}
 				{{season.description}}</p>
 
 			{% for episode in episodes %}
@@ -25,15 +25,15 @@
 					<divclass="rowm-5">
 						<div class="col">
 							<h1>
-								Titre :
+								{% trans %}app.title{% endtrans %} :
 								{{episode.title}}</h1>
 							<p>
-								indice de l episodes :
+								{% trans %}app.indice_episode{% endtrans %} :
 								{{episode.id}}</p>
 
-							Episode :
+							{% trans %}app.episode{% endtrans %} :
 							{{episode.number}}
-							<p>Synopsys :{{episode.synopsis}}</p>
+							<p>{% trans %}app.synopsys{% endtrans %} :{{episode.synopsis}}</p>
 						</div>
 					</div>
 
@@ -42,12 +42,12 @@
 			</div>
       	<div>
 				<a href="{{ path('program_episode_show',{ slug: program.slug , seasonId: season.id, slugy: episode.slug }) }}">
-					Voir le film
+					{% trans %}app.see{% endtrans %}
 				</a>
 			</div>
 			<div>
 				<a href="{{ path('program_show', { slug: program.slug }) }}">
-					Retour aux saisons
+					{% trans %}app.back_season{% endtrans %}
 				</a>
 			</div>
 		{% endfor %}

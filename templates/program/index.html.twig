@@ -1,8 +1,10 @@
 {% extends "base.html.twig" %}
 {% block body %}
 	<h1>{{ website }}
-		Home !</h1>
-	<h1>Toutes les séries de la table program :
+		{% trans %}app.home{% endtrans %}
+		!</h1>
+	<h1>{% trans %}app.all_series{% endtrans %}
+		:
 	</h1>
 
 
@@ -11,7 +13,7 @@
 			{{ numberPrograms }}
 			{{ form_start(form) }}
 			{{ form_widget(form) }}
-			<input type='submit' value={% trans %}'rechercher'{% endtrans %}>
+			<input type='submit' value={% trans %} 'rechercher' {% endtrans %}>
 			{{ form_end(form) }}
 			{{ app.session.get('total')  }}
 
@@ -32,13 +34,15 @@
 							<div class="card-body card text-white bg-dark m-4 p-1">
 								<h5 class="card-title">{{ loop.index }}.{{ program.title }}</h5>
 								<p class="card-text" style="height:220px;">{{ program.summary }}</p>
-								<p class="card-text">- Catégorie :{{ program.category.name }}</p>
+								<p class="card-text">-
+									{% trans %}app.categorie{% endtrans %}
+									:{{ program.category.name }}</p>
 							</div>
-							<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">Voir</a>
+							<a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary m-4 p-1">{% trans %}app.see{% endtrans %}</a>
 							{% if program.owner == app.user %}
 
 								{% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
-									<a href="{{ path('program_edit', { 'slug': program.slug} ) }}" class="btn btn-primary m-4 p-1">Éditer</a>
+									<a href="{{ path('program_edit', { 'slug': program.slug} ) }}" class="btn btn-primary m-4 p-1">{% trans %}app.edit{% endtrans %}</a>
 								{% endif %}
 
 							{% endif %}
@@ -47,15 +51,15 @@
 					</div>
 				</div>
 			{% else %}
-				No series found.
+				{% trans %}app.no_series_found{% endtrans %}.
 			{% endfor %}
 		</div>
 	</div>
 	<div class="container">
 		<a class="btn btn-primary" href="{{ path('app_index') }}">
-		
-			Back Home
-	
-		</a>% 
+
+			{% trans %}app.back_Home{% endtrans %}
+
+		</a>
 	</div>
 {% endblock %}

@@ -14,7 +14,7 @@
 					<h5 class="card-title">{{ program.title }}</h5>
 					<p class="card-text">{{ program.summary }}</p>
 					<p class="card-text">
-						<small class="text-muted"> {% trans %}Category{% endtrans %}:
+						<small class="text-muted"> {% trans %}app.category{% endtrans %}:
 							{{ program.category.name }}</small>
 					</p>
 					{#bouton ajout a la watchlist#}
@@ -28,8 +28,8 @@
 			</div>
 		</div>
 	</div>
-{% trans %}{% endtrans %}
-	<strong>{% trans %}Actors{% endtrans %} :</strong>
+
+	<strong>{% trans %}app.actors{% endtrans %} :</strong>
 
 	<ul>
 
@@ -40,7 +40,7 @@
 
 		{% else %}
 
-			<li>{% trans %}No actor for this series{% endtrans %}</li>
+			<li>{% trans %}app.no_actors{% endtrans %}</li>
 
 		{% endfor %}
 
@@ -49,16 +49,16 @@
 </div>
 {% for season in seasons %}
 	<div>
-		<h3>{% trans %}Season{% endtrans %}
+		<h3>{% trans %}app.season{% endtrans %}
 			{{ season.number}}
 		</h3>
-		<a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
+		<a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">{% trans %}app.sea_season{% endtrans %}</a>
 	</div>
 {% endfor %}
 
 <div>
 	<a href="{{ path('program_index') }}">
-	{% trans %}Return to program list{% endtrans %}
+	{% trans %}app.back_serie{% endtrans %}
 		
 	</a>
 </div>{% endblock %}

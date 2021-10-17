@@ -20,5 +20,30 @@ langue: language
 My.favorit: 'My favorites'
 '''rechercher''': search
 Welcome!: Welcome!
-category_show: __category_show
+category_show: Categories
 Menu: Menu
+app.category: __app.category
+app.actors: __app.actors
+app.no_actors: __app.no_actors
+app.season: __app.season
+app.sea_season: __app.sea_season
+app.back_serie: __app.back_serie
+app.home: __app.home
+app.all_series: __app.all_series
+app.categorie: __app.categorie
+app.see: __app.see
+app.edit: __app.edit
+app.no_series_found: __app.no_series_found
+app.back_Home: __app.back_Home
+app.id_season: __app.id_season
+app.name_serie: __app.name_serie
+app.description: Description
+app.title: Title
+app.indice_episode: __app.indice_episode
+app.episode: Episode
+app.synopsys: Synopsys
+app.back_season: Back Season
+comment: Comment
+Delete: Delete
+'Login to leave your comment': 'Login to leave your comment'
+app.search: Search
