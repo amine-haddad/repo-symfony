@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}Série #{{ program.id }}
+{% block title %}Série{{ program.id }}
 {% endblock %}
 
 {% block body %}
@@ -14,28 +14,22 @@
 					<h5 class="card-title">{{ program.title }}</h5>
 					<p class="card-text">{{ program.summary }}</p>
 					<p class="card-text">
-						<small class="text-muted">Catégorie :
+						<small class="text-muted"> {% trans %}Category{% endtrans %}:
 							{{ program.category.name }}</small>
 					</p>
-          {#bouton ajout a la watchlist#}
-          
-		  {% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
-		  	<a id="watchlist" href="{{ path('program_watchlist', {id: program.id})}}">
-						<i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-					</a>
-					<pre>
-            {{ dump(app.user.isInWatchlist(program)) }}
-          </pre>
-          <pre>
-            {{ dump(app.user.getWatchlist()) }}
-          </pre>
-		  {% endif %}
+					{#bouton ajout a la watchlist#}
+
+					{% if (is_granted("ROLE_ADMIN") or is_granted("ROLE_CONTRIBUTOR")) %}
+						<a id="watchlist" href="{{ path('program_watchlist', {id: program.id})}}">
+							<i class="bi {{ app.user.isInWatchlist(program) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+						</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<strong>Acteurs :</strong>
+{% trans %}{% endtrans %}
+	<strong>{% trans %}Actors{% endtrans %} :</strong>
 
 	<ul>
 
@@ -46,7 +40,7 @@
 
 		{% else %}
 
-			<li>Aucun acteur pour cette série</li>
+			<li>{% trans %}No actor for this series{% endtrans %}</li>
 
 		{% endfor %}
 
@@ -55,7 +49,7 @@
 </div>
 {% for season in seasons %}
 	<div>
-		<h3>saison
+		<h3>{% trans %}Season{% endtrans %}
 			{{ season.number}}
 		</h3>
 		<a href="{{ path('program_season_show', {slug:program.slug, seasonId:season.id} ) }}">Voir la saison</a>
@@ -64,6 +58,7 @@
 
 <div>
 	<a href="{{ path('program_index') }}">
-		Retour à la liste des programmes
+	{% trans %}Return to program list{% endtrans %}
+		
 	</a>
 </div>{% endblock %}

@@ -1,0 +1,9 @@
+
+
+{% block title %}navbartop{% endblock %}
+
+{% block body %}
+{% for category in categories %}
+        <div><a href="{{ path('category_show', {categoryName:category.name}) }}">{{ category.name }}</a></div>
+{% endfor %}
+{% endblock %}
