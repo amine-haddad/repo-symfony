@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block body %}
-	<h1>Bienvenue!
+	<h1>{% trans %}Welcome!{% endtrans %} 
 		{% if is_granted('ROLE_CONTRIBUTOR') or is_granted('ROLE_ADMIN') or is_granted('ROLE_USER') %}
 			{{app.user.firstname}}
 			<p>Email:
