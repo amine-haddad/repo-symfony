@@ -14,10 +14,7 @@
 			<input type='submit' value={% trans %}'rechercher'{% endtrans %}>
 			{{ form_end(form) }}
 			{{ app.session.get('total')  }}
-			
-			<pre>
-				{{ dump(app.session) }}
-			</pre>
+
 			{% if app.user == true %}
 				{{app.user.firstname}}
 
